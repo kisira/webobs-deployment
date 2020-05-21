@@ -14,7 +14,7 @@ An enhanced Webobs Deployment experience. Using Vagrant and Virtual Machines
     ```
 4. Download the latest Webobs release
     and place it in the same folder as the Vagrantfile.libvirt
-5. Download the latest MATLAB releease
+5. Download the latest MATLAB release
     and place it in the same folder as the Vagrantfile.libvirt
 6. Do not remove any files already in the folder
 7. Download the latest etopo.zip
@@ -79,7 +79,7 @@ An enhanced Webobs Deployment experience. Using Vagrant and Virtual Machines
     ```
 4. Download the latest Webobs release
     place it in the same folder as the Vagrantfile
-5. Download the latest MATLAB releease
+5. Download the latest MATLAB release
     place it in the same folder as the Vagrantfile
 6. Do not remove any files already in the folder
 7. Download the latest etopo.zip
