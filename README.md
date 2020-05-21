@@ -41,6 +41,10 @@ An enhanced Webobs Deployment experience. Using Vagrant and Virtual Machines
 3. Start the virtual machine from a command prompt
     Run:
     ```sh
+     vagrant up
+     ```
+    Then
+    ```sh
     vagrant ssh
     ```
     If a password is requested type:
@@ -101,6 +105,10 @@ An enhanced Webobs Deployment experience. Using Vagrant and Virtual Machines
      ```
 3. Start the virtual machine from a command prompt
     Run:
+    ```sh
+     vagrant up
+     ```
+    Then
     ```sh
     vagrant ssh
     ```
