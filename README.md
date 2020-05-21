@@ -31,6 +31,7 @@ An enhanced Webobs Deployment experience. Using Vagrant and Virtual Machines
     edit the vagrant file to reflect the version of
     Webobs and MATLAB as appropriate.
     Do this by changing the values of the WEBOBS and MATLAB variables
+    Please see the Vagrantfile.libvirt for examples
     These variables are on lines 30 and 32 of the Vagrantfile.libvirt
     The Vagrantfile.libvirt can be opened in any text editor
 2. Run:
@@ -91,6 +92,7 @@ An enhanced Webobs Deployment experience. Using Vagrant and Virtual Machines
     edit the vagrant file to reflect the version of
     Webobs and MATLAB as appropriate
     Do this by changing the values of the WEBOBS and MATLAB variables
+    Please see the Vagrantfile for examples
     These variables are on lines 27 and 29 of the Vagrantfile
     The Vagrantfile file can be opened in any text editor
 2. Run:
