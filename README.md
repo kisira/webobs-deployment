@@ -1,9 +1,9 @@
 # webobs-deployment
 An enhanced Webobs Deployment experience. Using Vagrant and Virtual Machines
 
-Procedure For Linux(libvirt & QEMU):
+## Procedure For Linux(libvirt & QEMU):
 
-Prerequisites:
+### Prerequisites:
 1. Install libvirt, virt-manager and qemu
 2. Install Vagrant
 3. Install some Vagrant plugins:
@@ -24,7 +24,7 @@ Prerequisites:
         vagrant box add generic/ubuntu2004 --provider=virtualbox
         ```
 
-Installation
+### Installation
 
 1. Download both Webobs and MATLAB
     in the same folder as the Vagrantfile
@@ -61,9 +61,9 @@ Installation
 5. Finally, the web server will be available locally on:
     http://localhost:9977
 
-Procedure For Windows Or Linux:
+## Procedure For Windows Or Linux:
 
-Prerequisites:
+### Prerequisites:
 1. Install VirtualBox
 2. Install Vagrant
 3. Install some Vagrant plugins:
@@ -84,7 +84,7 @@ Prerequisites:
         vagrant box add generic/ubuntu2004 --provider=virtualbox
         ```
 
-Installation
+### Installation
 
 1. Download both Webobs and MATLAB
     in the same folder as the Vagrantfile
