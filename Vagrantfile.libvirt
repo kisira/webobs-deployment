@@ -1,0 +1,127 @@
+# encoding: utf-8
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Proper installation
+# wget -c https://releases.hashicorp.com/vagrant/2.0.3/vagrant_2.0.3_x86_64.deb
+# sudo dpkg -i vagrant_2.0.3_x86_64.deb
+# Then
+# vagrant plugin install vagrant-libvirt
+# And
+# vagrant plugin install vagrant-disksize
+# Matlab:
+# https://www.mathworks.com/products/compiler/matlab-runtime.html
+
+#Run with libvirt for QEMU instead of Virtualbox
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'libvirt'
+
+# Box / OS
+VAGRANT_BOX = 'generic/ubuntu2004'
+
+# Memorable name for your
+VM_NAME = 'WEBOBS'
+
+# VM User — 'vagrant' by default
+VM_USER = 'vagrant'
+
+# Where to sync to on Guest — 'vagrant' is the default user name
+GUEST_PATH = '/home/' + VM_USER + '/'
+
+WEBOBS = "WebObs-2.1.5a"
+
+MATLAB = "MATLAB_Runtime_R2020a_glnxa64.zip"
+
+IP_ADDR = "192.168.100.250"
+
+# # VM Port — uncomment this to use NAT instead of DHCP
+VM_PORT = 9999
+
+Vagrant.configure(2) do |config|
+
+  # Vagrant box from Hashicorp
+  config.vm.box = VAGRANT_BOX
+
+  # Actual machine name
+  config.vm.hostname = VM_NAME
+  config.vm.provision :shell, :inline => "sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config; sudo systemctl restart sshd;", run: "always"
+
+  #libvirt
+  config.vm.provider :libvirt do |v|
+    v.memory = 2048
+  end
+
+  #File provisioner
+  config.vm.provision "file", source: WEBOBS + ".tar.gz", destination: GUEST_PATH + WEBOBS + ".tar.gz"
+  config.vm.provision "file", source: MATLAB, destination: GUEST_PATH + MATLAB
+  config.vm.provision "file", source: "etopo.zip", destination: GUEST_PATH + "etopo.zip"
+
+  # # Port forwarding
+  config.vm.network :forwarded_port, guest: 80,   host: VM_PORT,    id: "web",    auto_correct: false
+  config.vm.network :forwarded_port, guest: 3389, host: 3299,       id: "rdp",    auto_correct: false
+  config.vm.network :forwarded_port, guest: 5985, host: 5985,       id: "winrm", auto_correct: false
+  config.vm.network :forwarded_port, guest: 443,  host: 9444,       id: "ssl",    auto_correct: false
+
+  # Disable default Vagrant folder, use a unique path per project
+  #config.vm.synced_folder '.', '/home/'+VM_USER+'', disabled: true
+
+  #File provisioner
+  config.vm.provision "file", source: "etclocalegen.txt", destination: GUEST_PATH + "etclocalegen.txt"
+  config.vm.provision "file", source: "ImageMagick-6.policy.xml", destination: GUEST_PATH + "ImageMagick-6.policy.xml"
+  config.vm.provision "file", source: "WEBOBS.rc", destination: GUEST_PATH + "WEBOBS.rc"
+  config.vm.provision "file", source: "install.sh", destination: GUEST_PATH + "install.sh"
+
+  LD_LIBRARY_PATH="LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/MATLAB/MATLAB_Runtime/v98/runtime/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v98/bin/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v98/sys/os/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v98/extern/bin/glnxa64"
+  WEBOBS_ENV="WEBOBS=#{WEBOBS}"
+  GUEST_PATH_ENV="GUEST_PATH=#{GUEST_PATH}"
+
+  # Install Git, webobs dependencies
+  config.vm.provision "shell", inline: <<-SHELL
+    add-apt-repository universe
+    apt-get update
+    apt-get install -y build-essential
+
+    apt-get install -y git, unzip
+    apt-get install -y apache2 apache2-utils sqlite3 imagemagick
+    apt-get install -y mutt xvfb curl gawk graphviz net-tools
+    apt-get install -y curl gawk graphviz net-tools libdatetime-perl
+    apt-get install -y libdate-calc-perl libcgi-session-perl
+    apt-get install -y libdbd-sqlite3-perl libgraphviz-perl
+    apt-get install -y libimage-info-perl libtext-multimarkdown-perl
+    apt-get install -y libswitch-perl libintl-perl gdebi-core xpdf
+    apt-get install -y python3 cron anacron acl python perl
+    apt-get install -y libintl-perl libncurses5 locales libasound2
+    apt-get install -y libasound2-data ghostscript libdbi-perl wget
+    apt-get install -y sed zip default-jdk
+
+    apt-get update
+    apt-get upgrade -y
+    apt-get autoremove -y
+
+    systemctl enable apache2
+
+    echo #{LD_LIBRARY_PATH} >> /etc/environment
+    echo #{WEBOBS_ENV} >> /etc/environment
+    echo #{GUEST_PATH_ENV} >> /etc/environment
+
+    mkdir -p /usr/share/man/man1
+    mkdir -p /opt/webobs
+    mv #{GUEST_PATH}etclocalegen.txt /etc/locale.gen
+    mv #{GUEST_PATH}ImageMagick-6.policy.xml \
+                  /etc/ImageMagick-6/policy.xml
+    mv #{GUEST_PATH}#{MATLAB} /opt/webobs/#{MATLAB}
+    mv #{GUEST_PATH}#{WEBOBS}.tar.gz /opt/webobs/#{WEBOBS}.tar.gz
+    locale-gen fr_FR en_US
+    a2enmod cgid
+    unzip /opt/webobs/#{MATLAB} -d /opt/webobs
+    /opt/webobs/install -mode silent -agreeToLicense yes
+    tar xf /opt/webobs/#{WEBOBS}.tar.gz -C /opt/webobs/
+    mv #{GUEST_PATH}install.sh /usr/local/bin/install.sh
+    chmod 777 /usr/local/bin/install.sh
+    ln -s /usr/local/bin/install.sh /
+
+    echo "Finished setting up the webobs environment - run 'vagrant ssh' to connect,"
+    echo "then 'sudo install.sh' to install Webobs"
+    shutdown -h now
+  SHELL
+
+end
