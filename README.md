@@ -5,9 +5,9 @@ An enhanced Webobs Deployment experience. Using Vagrant and Virtual Machines
 
 ### Prerequisites:
 1. Install libvirt, virt-manager and qemu
-2. Install Vagrant
+2. Install Vagrant: https://www.vagrantup.com/docs/installation/
 3. Install some Vagrant plugins:
-    Execute the commands below to install them
+    In a command shell execute the commands below to install them
     ```sh
     vagrant plugin install vagrant-libvirt
     vagrant plugin install vagrant-disksize
@@ -54,7 +54,7 @@ An enhanced Webobs Deployment experience. Using Vagrant and Virtual Machines
     ```
     This will go through the installation process interactively
     After the installallation completes you may logout by
-    Typing:
+    typing:
     ```sh
     exit
     ```
@@ -65,9 +65,9 @@ An enhanced Webobs Deployment experience. Using Vagrant and Virtual Machines
 
 ### Prerequisites:
 1. Install VirtualBox
-2. Install Vagrant
+2. Install Vagrant: https://www.vagrantup.com/docs/installation/
 3. Install some Vagrant plugins:
-    Execute the commands below to install them
+    In a command shell execute the commands below to install them
     ```sh
     vagrant plugin install vagrant-vbguest
     vagrant plugin install vagrant-disksize
@@ -114,7 +114,7 @@ An enhanced Webobs Deployment experience. Using Vagrant and Virtual Machines
     ```
     This will go through the installation process interactively
     After the installallation completes you may logout by
-    Typing:
+    typing:
     ```sh
     exit
     ```
