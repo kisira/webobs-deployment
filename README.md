@@ -58,10 +58,26 @@ An enhanced Webobs Deployment experience. Using Vagrant and Virtual Machines
     sudo install.sh
     ```
     This will go through the installation process interactively
-    After the installallation completes you may logout by
-    typing:
+    After the installallation completes the VM will shutdown
+    Restart it again with by runing:
+    ```sh
+    vagrant up
+    ```
+    You can login to the virtual machine at any time with:
+    ```sh
+    vagrant ssh
+    ```
+    While logged in you may logout at any time by executing:
     ```sh
     exit
+    ```
+    You can also shutdown the virtual machine by executing:
+    ```sh
+    vagrant halt
+    ```
+    And remove it completely by running:
+    ```sh
+    vagrant destroy -f
     ```
 5. Finally, the web server will be available locally on:
     http://localhost:9977
@@ -124,10 +140,26 @@ An enhanced Webobs Deployment experience. Using Vagrant and Virtual Machines
     sudo install.sh
     ```
     This will go through the installation process interactively
-    After the installallation completes you may logout by
-    typing:
+    After the installallation completes the VM will shutdown
+    Restart it again with by runing:
+    ```sh
+    vagrant up
+    ```
+    You can login to the virtual machine at any time with:
+    ```sh
+    vagrant ssh
+    ```
+    While logged in you may logout at any time by executing:
     ```sh
     exit
+    ```
+    You can also shutdown the virtual machine by executing:
+    ```sh
+    vagrant halt
+    ```
+    And remove it completely by running:
+    ```sh
+    vagrant destroy -f
     ```
 5. Finally, the web server will be available locally on:
     http://localhost:9977

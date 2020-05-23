@@ -45,6 +45,8 @@ else
             systemctl enable wopostboard.service
             echo "Enabled Systemd Services..."
             pause 'Press [Enter] key to continue...'
+            a2dissite 000-default.conf
+            systemctl reload apache2
             #systemctl start woscheduler.service
             #systemctl start wopostboard.service
             echo "Started Systemd..."
@@ -59,8 +61,11 @@ else
       pause 'Press [Enter] key to continue...'
       # exec sed -i '1s/^/$var/' ${LOCKFILE}
       echo $curr > ~/${LOCKFILE}
-      echo "Locked..."
+      echo "Install succeded. The machine will shutdown now..."
+      echo "To use Webobs restart the machine with <vagrant up>"
+      echo "After restart Webobs will be available on http://localhost:9977"
       pause 'Press [Enter] key to continue...'
+      shutdown -h now
 fi
 
 exec "$@"
