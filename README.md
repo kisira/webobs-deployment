@@ -1,7 +1,7 @@
 # webobs-deployment
-An enhanced Webobs Deployment experience. Using Vagrant and Virtual Machines
+An enhanced Webobs Deployment experience. Using Vagrant and Virtual Machines. The instructions below are for both [Linux](#procedure-for-linux-using-libvirt-and-qemu) and [Windows](#procedure-for-windows-or-linux)
 
-## Procedure For Linux(libvirt & QEMU):
+## Procedure For Linux using libvirt and QEMU
 
 ### Prerequisites:
 1. Install libvirt, virt-manager and qemu
@@ -79,10 +79,15 @@ An enhanced Webobs Deployment experience. Using Vagrant and Virtual Machines
     ```sh
     vagrant destroy -f
     ```
+    Note: I have noticed that the postboard and scheduler services fail to start automatically. As a workaround I have been starting the processes manually by executing the commands below while logged in:
+    ```sh
+    sudo perl /etc/webobs.d/../CODE/cgi-bin/postboard.pl &
+    sudo perl /etc/webobs.d/../CODE/cgi-bin/scheduler.pl &
+    ```
 5. Finally, the web server will be available locally on:
     http://localhost:9977
 
-## Procedure For Windows Or Linux:
+## Procedure For Windows Or Linux
 
 ### Prerequisites:
 1. Install VirtualBox
@@ -160,6 +165,11 @@ An enhanced Webobs Deployment experience. Using Vagrant and Virtual Machines
     And remove it completely by running:
     ```sh
     vagrant destroy -f
+    ```
+    Note: I have noticed that the postboard and scheduler services fail to start automatically. As a workaround I have been starting the processes manually by executing the commands below while logged in:
+    ```sh
+    sudo perl /etc/webobs.d/../CODE/cgi-bin/postboard.pl &
+    sudo perl /etc/webobs.d/../CODE/cgi-bin/scheduler.pl &
     ```
 5. Finally, the web server will be available locally on:
     http://localhost:9977
