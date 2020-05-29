@@ -28,8 +28,8 @@ else
             #ETOPO5
             #Actual folder is -- /opt/webobs/DATA/DEM/ETOPO
             unzip -d /opt/webobs/DATA/DEM/ETOPO ${GUEST_PATH}etopo.zip
-            mv ${GUEST_PATH}WEBOBS.rc /etc/webobs.d/WEBOBS.rc
-            rm -r ${GUEST_PATH}etopo.zip
+            cp ${GUEST_PATH}WEBOBS.rc /etc/webobs.d/WEBOBS.rc
+            #rm -r ${GUEST_PATH}etopo.zip
             echo "Webobs Setup Ended..."
             pause 'Press [Enter] key to continue...'
             # /etc/init.d/apache2 restart
@@ -38,11 +38,20 @@ else
             # /lib/systemd/systemd
             # echo "Initialised Systemd..."
             pause 'Press [Enter] key to continue...'
+            runuser -l vagrant -c 'mkdir -p  ~/.config/systemd/user/'
             cp /opt/webobs/${WEBOBS}/SETUP/systemd/wo* /etc/systemd/system/
+            #cp /opt/webobs/${WEBOBS}/SETUP/systemd/wo* /home/vagrant/.config/systemd/user/
+            systemctl daemon-reload
             echo "Copied To Systemd..."
             pause 'Press [Enter] key to continue...'
+            # /etc/init.d/dbus start
+            chown vagrant:vagrant -R /home/vagrant/.config/systemd/user/
+            chown vagrant:vagrant -R /opt/webobs/
             systemctl enable woscheduler.service
             systemctl enable wopostboard.service
+            #runuser -l vagrant -c 'systemctl --user enable --now woscheduler.service'
+            #runuser -l vagrant -c 'systemctl --user enable --now wopostboard.service'
+            #runuser -l vagrant -c 'systemctl --user daemon-reload'
             echo "Enabled Systemd Services..."
             pause 'Press [Enter] key to continue...'
             a2dissite 000-default.conf

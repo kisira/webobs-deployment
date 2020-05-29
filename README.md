@@ -1,5 +1,5 @@
 # webobs-deployment
-An enhanced Webobs Deployment experience. Using Vagrant and Virtual Machines. The instructions below are for both [Linux](#procedure-for-linux-using-libvirt-and-qemu) and [Windows](#procedure-for-windows-or-linux)
+An enhanced WebObs Deployment experience. Using Vagrant and Virtual Machines. The instructions below are for both [Linux](#procedure-for-linux-using-libvirt-and-qemu) and [Windows](#procedure-for-windows-or-linux)
 
 ## Procedure For Linux using libvirt and QEMU
 
@@ -12,13 +12,16 @@ An enhanced Webobs Deployment experience. Using Vagrant and Virtual Machines. Th
     vagrant plugin install vagrant-libvirt
     vagrant plugin install vagrant-disksize
     ```
-4. Download the latest Webobs release
+4. Download the latest WebObs release
     and place it in the same folder as the Vagrantfile.libvirt
 5. Download the latest MATLAB release
     and place it in the same folder as the Vagrantfile.libvirt
 6. Do not remove any files already in the folder
 7. Download the latest etopo.zip
     place it in the same folder as the Vagrantfile
+    ```sh
+    curl https://www.ngdc.noaa.gov/mgg/global/relief/ETOPO1/data/bedrock/grid_registered/binary/etopo1_bed_g_i2.zip -o etopo.zip
+    ```
    Optional: Pull the Ubuntu image. Execute:
         ```sh
         vagrant box add generic/ubuntu2004 --provider=virtualbox
@@ -26,10 +29,10 @@ An enhanced Webobs Deployment experience. Using Vagrant and Virtual Machines. Th
 
 ### Installation
 
-1. Download both Webobs and MATLAB
+1. Download both WebObs and MATLAB
     in the same folder as the Vagrantfile
     edit the vagrant file to reflect the version of
-    Webobs and MATLAB as appropriate.
+    WebObs and MATLAB as appropriate.
     Do this by changing the values of the WEBOBS and MATLAB variables
     Please see the Vagrantfile.libvirt for examples
     These variables are on lines 30 and 32 of the Vagrantfile.libvirt
@@ -51,8 +54,11 @@ An enhanced Webobs Deployment experience. Using Vagrant and Virtual Machines. Th
     ```sh
     vagrant
     ```
-    This will log you in
-    then install Webobs as below
+    This will log you in as the **vagrant** user
+
+    **IMPORTANT: Use the "vagrant" username when installing WebObs**
+
+    Now install WebObs as below
 4. While logged in run :
     ```sh
     sudo install.sh
@@ -79,11 +85,7 @@ An enhanced Webobs Deployment experience. Using Vagrant and Virtual Machines. Th
     ```sh
     vagrant destroy -f
     ```
-    Note: I have noticed that the postboard and scheduler services fail to start automatically. As a workaround I have been starting the processes manually by executing the commands below while logged in:
-    ```sh
-    sudo perl /etc/webobs.d/../CODE/cgi-bin/postboard.pl &
-    sudo perl /etc/webobs.d/../CODE/cgi-bin/scheduler.pl &
-    ```
+
 5. Finally, the web server will be available locally on:
     http://localhost:9977
 
@@ -91,8 +93,8 @@ An enhanced Webobs Deployment experience. Using Vagrant and Virtual Machines. Th
 
 ### Prerequisites:
 1. Install VirtualBox
-2. Install Vagrant: https://www.vagrantup.com/docs/installation/  
-   Note: On Windows this requires installing Ruby  
+2. Install Vagrant: https://www.vagrantup.com/docs/installation/
+   Note: On Windows this requires installing Ruby
    https://www.ruby-lang.org/en/documentation/installation/#rubyinstaller
 3. Install some Vagrant plugins:
     In a command shell execute the commands below to install them
@@ -100,13 +102,16 @@ An enhanced Webobs Deployment experience. Using Vagrant and Virtual Machines. Th
     vagrant plugin install vagrant-vbguest
     vagrant plugin install vagrant-disksize
     ```
-4. Download the latest Webobs release
+4. Download the latest WebObs release
     place it in the same folder as the Vagrantfile
 5. Download the latest MATLAB release
     place it in the same folder as the Vagrantfile
 6. Do not remove any files already in the folder
 7. Download the latest etopo.zip
     place it in the same folder as the Vagrantfile
+    ```sh
+    curl https://www.ngdc.noaa.gov/mgg/global/relief/ETOPO1/data/bedrock/grid_registered/binary/etopo1_bed_g_i2.zip -o etopo.zip
+    ```
    Optional: Pull the Ubuntu image. Execute:
         ```sh
         vagrant box add generic/ubuntu2004 --provider=virtualbox
@@ -114,10 +119,10 @@ An enhanced Webobs Deployment experience. Using Vagrant and Virtual Machines. Th
 
 ### Installation
 
-1. Download both Webobs and MATLAB
+1. Download both WebObs and MATLAB
     in the same folder as the Vagrantfile
     edit the vagrant file to reflect the version of
-    Webobs and MATLAB as appropriate
+    WebObs and MATLAB as appropriate
     Do this by changing the values of the WEBOBS and MATLAB variables
     Please see the Vagrantfile for examples
     These variables are on lines 27 and 29 of the Vagrantfile
@@ -139,8 +144,11 @@ An enhanced Webobs Deployment experience. Using Vagrant and Virtual Machines. Th
     ```sh
     vagrant
     ```
-    This will log you in
-    then install Webobs as below
+    This will log you in as the **vagrant** user
+
+    **IMPORTANT: Use the "vagrant" username when installing WebObs**
+
+    Now install WebObs as below
 4. While logged in run :
     ```sh
     sudo install.sh
@@ -167,10 +175,6 @@ An enhanced Webobs Deployment experience. Using Vagrant and Virtual Machines. Th
     ```sh
     vagrant destroy -f
     ```
-    Note: I have noticed that the postboard and scheduler services fail to start automatically. As a workaround I have been starting the processes manually by executing the commands below while logged in:
-    ```sh
-    sudo perl /etc/webobs.d/../CODE/cgi-bin/postboard.pl &
-    sudo perl /etc/webobs.d/../CODE/cgi-bin/scheduler.pl &
-    ```
+
 5. Finally, the web server will be available locally on:
     http://localhost:9977

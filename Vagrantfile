@@ -97,7 +97,7 @@ Vagrant.configure(2) do |config|
   config.winrm.host = "localhost"
 
   # Disable default Vagrant folder, use a unique path per project
-  #config.vm.synced_folder '.', '/home/'+VM_USER+'', disabled: true
+  config.vm.synced_folder '.', '/home/'+VM_USER+'', disabled: false
 
   #File provisioner
   config.vm.provision "file", source: "smb.conf", destination: GUEST_PATH + "smb.conf"
@@ -105,11 +105,19 @@ Vagrant.configure(2) do |config|
   config.vm.provision "file", source: "ImageMagick-6.policy.xml", destination: GUEST_PATH + "ImageMagick-6.policy.xml"
   config.vm.provision "file", source: "WEBOBS.rc", destination: GUEST_PATH + "WEBOBS.rc"
   config.vm.provision "file", source: "install.sh", destination: GUEST_PATH + "install.sh"
+  config.vm.provision "file", source: "woscheduler.service", destination: GUEST_PATH + "woscheduler.service"
+  config.vm.provision "file", source: "wopostboard.service", destination: GUEST_PATH + "wopostboard.service"
 
   LD_LIBRARY_PATH="LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/MATLAB/MATLAB_Runtime/v98/runtime/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v98/bin/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v98/sys/os/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v98/extern/bin/glnxa64"
 
   WEBOBS_ENV="WEBOBS=#{WEBOBS}"
   GUEST_PATH_ENV="GUEST_PATH=#{GUEST_PATH}"
+
+  #config.trigger.after :up do |trigger|
+    #trigger.name = "Services"
+    #trigger.run_remote = {inline: "perl /etc/webobs.d/../CODE/cgi-bin/scheduler.pl &"}
+    #trigger.run_remote = {inline: "perl /etc/webobs.d/../CODE/cgi-bin/postboard.pl &"}
+  #end
 
   # Install Git, webobs dependencies
   config.vm.provision "shell", inline: <<-SHELL
@@ -130,7 +138,7 @@ Vagrant.configure(2) do |config|
     DEBIAN_FRONTEND=noninteractive apt-get install -y git, unzip
     DEBIAN_FRONTEND=noninteractive apt-get install -y samba smbclient cifs-utils
     DEBIAN_FRONTEND=noninteractive apt-get install -y apache2 apache2-utils sqlite3 imagemagick
-    DEBIAN_FRONTEND=noninteractive apt-get install -y mutt xvfb curl gawk graphviz net-tools
+    DEBIAN_FRONTEND=noninteractive apt-get install -y mutt xvfb curl gawk graphviz net-tools dbus-user-session
     DEBIAN_FRONTEND=noninteractive apt-get install -y curl gawk graphviz net-tools libdatetime-perl
     DEBIAN_FRONTEND=noninteractive apt-get install -y libdate-calc-perl libcgi-session-perl
     DEBIAN_FRONTEND=noninteractive apt-get install -y libdbd-sqlite3-perl libgraphviz-perl
@@ -158,7 +166,7 @@ Vagrant.configure(2) do |config|
 
     smbpasswd -e vagrant
 
-    mv #{GUEST_PATH}smb.conf /etc/samba/smb.conf
+    cp #{GUEST_PATH}smb.conf /etc/samba/smb.conf
 
     systemctl restart smbd
 
@@ -171,23 +179,27 @@ Vagrant.configure(2) do |config|
     echo #{LD_LIBRARY_PATH} >> /etc/environment
     echo #{WEBOBS_ENV} >> /etc/environment
     echo #{GUEST_PATH_ENV} >> /etc/environment
+    echo "XDG_RUNTIME_DIR=/run/user/1000" >> /etc/environment
+    echo "LD_PRELOAD=/usr/lib/gcc/x86_64-linux-gnu/9/libstdc++.so" >> /etc/environment
     echo "vboxsf" >> /etc/modules
 
     mkdir -p /usr/share/man/man1
     mkdir -p /opt/webobs
 
-    mv #{GUEST_PATH}etclocalegen.txt /etc/locale.gen
-    mv #{GUEST_PATH}ImageMagick-6.policy.xml \
+    cp #{GUEST_PATH}etclocalegen.txt /etc/locale.gen
+    cp #{GUEST_PATH}ImageMagick-6.policy.xml \
                   /etc/ImageMagick-6/policy.xml
-    mv #{GUEST_PATH}#{MATLAB}.zip /opt/webobs/#{MATLAB}.zip
-    mv #{GUEST_PATH}#{WEBOBS}.tar.gz /opt/webobs/#{WEBOBS}.tar.gz
+    cp #{GUEST_PATH}#{MATLAB}.zip /opt/webobs/#{MATLAB}.zip
+    cp #{GUEST_PATH}#{WEBOBS}.tar.gz /opt/webobs/#{WEBOBS}.tar.gz
     locale-gen fr_FR en_US
     a2enmod cgid
     unzip /opt/webobs/#{MATLAB}.zip -d /opt/webobs
     /opt/webobs/install -mode silent -agreeToLicense yes
     tar xf /opt/webobs/#{WEBOBS}.tar.gz -C /opt/webobs/
+    cp #{GUEST_PATH}woscheduler.service /opt/webobs/#{WEBOBS}/SETUP/systemd/
+    cp #{GUEST_PATH}wopostboard.service /opt/webobs/#{WEBOBS}/SETUP/systemd/
 
-    mv #{GUEST_PATH}install.sh /usr/local/bin/install.sh
+    cp #{GUEST_PATH}install.sh /usr/local/bin/install.sh
     chmod 777 /usr/local/bin/install.sh
     ln -s /usr/local/bin/install.sh /
     #sed -i 's/allowed_users=.*$/allowed_users=anybody/' /etc/X11/Xwrapper.config
