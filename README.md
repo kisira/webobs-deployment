@@ -31,11 +31,16 @@ An enhanced WebObs Deployment experience. Using Vagrant and Virtual Machines. Th
 
 1. Download both WebObs and MATLAB
     in the same folder as the Vagrantfile
-    edit the vagrant file to reflect the version of
+
+    Edit the vagrant file to reflect the version of
     WebObs and MATLAB as appropriate.
+
     Do this by changing the values of the WEBOBS and MATLAB variables
+
     Please see the Vagrantfile.libvirt for examples
+
     These variables are on lines 30 and 32 of the Vagrantfile.libvirt
+
     The Vagrantfile.libvirt can be opened in any text editor
 2. Run:
    ```sh
@@ -64,7 +69,9 @@ An enhanced WebObs Deployment experience. Using Vagrant and Virtual Machines. Th
     sudo install.sh
     ```
     This will go through the installation process interactively
+
     After the installallation completes the VM will shutdown
+
     Restart it again with by runing:
     ```sh
     vagrant up
@@ -121,11 +128,16 @@ An enhanced WebObs Deployment experience. Using Vagrant and Virtual Machines. Th
 
 1. Download both WebObs and MATLAB
     in the same folder as the Vagrantfile
-    edit the vagrant file to reflect the version of
+
+    Edit the vagrant file to reflect the version of
     WebObs and MATLAB as appropriate
+
     Do this by changing the values of the WEBOBS and MATLAB variables
+
     Please see the Vagrantfile for examples
+
     These variables are on lines 27 and 29 of the Vagrantfile
+
     The Vagrantfile file can be opened in any text editor
 2. Run:
      ```sh
@@ -154,7 +166,9 @@ An enhanced WebObs Deployment experience. Using Vagrant and Virtual Machines. Th
     sudo install.sh
     ```
     This will go through the installation process interactively
+
     After the installallation completes the VM will shutdown
+    
     Restart it again with by runing:
     ```sh
     vagrant up
