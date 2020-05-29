@@ -101,6 +101,7 @@ An enhanced WebObs Deployment experience. Using Vagrant and Virtual Machines. Th
 ### Prerequisites:
 1. Install VirtualBox
 2. Install Vagrant: https://www.vagrantup.com/docs/installation/
+
    Note: On Windows this requires installing Ruby
    https://www.ruby-lang.org/en/documentation/installation/#rubyinstaller
 3. Install some Vagrant plugins:
